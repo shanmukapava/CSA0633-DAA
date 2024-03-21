@@ -1,0 +1,27 @@
+def knapsack(W, wt, val, n):
+    # Initialize a 2D table K to store the maximum value that can be put in a knapsack of capacity W
+    K = [[0] * (W + 1) for _ in range(n + 1)]
+
+    # Build table K[][] in a bottom-up manner
+    for i in range(1, n + 1):
+        for w in range(1, W + 1):
+            current_weight = wt[i - 1]  # Get the weight of the current item
+            current_value = val[i - 1]   # Get the value of the current item
+
+            if current_weight <= w:
+                # Include the current item if its weight is less than or equal to the current capacity
+                K[i][w] = max(current_value + K[i - 1][w - current_weight], K[i - 1][w])
+            else:
+                # Exclude the current item if its weight exceeds the current capacity
+                K[i][w] = K[i - 1][w]
+
+    return K
+
+# Example usage (won't be executed automatically if this script is run as the main program)
+profit = [60, 100, 120]     # List of values/profits of items
+weight = [10, 20, 30]       # List of weights of items
+capacity = 50               # Capacity of the knapsack
+num_items = len(profit)    # Number of items
+table = knapsack(capacity, weight, profit, num_items)  # Call the knapsack function to get the 2D table
+for row in table:           # Iterate over each row of the table
+    print(row)              # Print each row of the table

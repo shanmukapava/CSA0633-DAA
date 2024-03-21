@@ -1,0 +1,10 @@
+def sum_of_digits(number):
+    # Convert the number to a string and iterate through its digits
+    digit_sum = sum(int(digit) for digit in str(number))
+    return digit_sum
+
+# Example usage:
+num = 12345
+result = sum_of_digits(num)
+
+print(f"The sum of digits in {num} is: {result}")

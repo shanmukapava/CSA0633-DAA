@@ -1,0 +1,17 @@
+def linear_search(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i  # Return the index of the target element
+    return -1  # Return -1 if the target element is not found
+
+if __name__ == "__main__":
+    # Example usage
+    my_list = [5, 3, 8, 2, 7, 1, 4, 6]
+    target_element = int(input("Enter the element to search: "))
+    
+    result = linear_search(my_list, target_element)
+    
+    if result != -1:
+        print(f"Element {target_element} found at index {result}.")
+    else:
+        print(f"Element {target_element} not found in the list.")

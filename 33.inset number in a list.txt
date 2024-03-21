@@ -1,0 +1,13 @@
+def insert_number(lst, num, position):
+    if position < 0 or position > len(lst):
+        print("Invalid position. Insertion failed.")
+    else:
+        lst.insert(position, num)
+        print(f"Number {num} inserted at position {position}. Updated list: {lst}")
+
+# Example usage:
+my_list = [1, 2, 3, 4, 5]
+number_to_insert = 99
+insert_position = 2
+
+insert_number(my_list, number_to_insert, insert_position)

@@ -1,0 +1,59 @@
+class Edge:
+    def __init__(self, src, dest, weight):
+        self.src = src
+        self.dest = dest
+        self.weight = weight
+
+
+def createGraph(V, E):
+    return [[] for _ in range(V)]
+
+def find(parent, i):
+    if parent[i] == -1:
+        return i
+    return find(parent, parent[i])
+
+def union(parent, rank, x, y):
+    x_root = find(parent, x)
+    y_root = find(parent, y)
+    if rank[x_root] < rank[y_root]:
+        parent[x_root] = y_root
+    elif rank[x_root] > rank[y_root]:
+        parent[y_root] = x_root
+    else:
+        parent[y_root] = x_root
+        rank[x_root] += 1
+
+def compare(a, b):
+    return a.weight - b.weight
+
+def kruskal_mst(graph, V):
+    result = [] 
+    e = 0  
+    graph.sort(key=lambda edge: edge.weight)  
+    parent = [-1] * V  
+    rank = [0] * V  
+
+    while e < V - 1:
+        next_edge = graph[e]
+        e += 1
+        x = find(parent, next_edge.src)
+        y = find(parent, next_edge.dest)
+        if x != y:
+            result.append(next_edge)
+            union(parent, rank, x, y)
+    return result
+
+if __name__ == "__main__":
+    V = 4  
+    E = 5
+    graph = []
+    graph.append(Edge(0, 1, 10))
+    graph.append(Edge(0, 2, 6))
+    graph.append(Edge(0, 3, 5))
+    graph.append(Edge(1, 3, 15))
+    graph.append(Edge(2, 3, 4))
+    mst = kruskal_mst(graph, V)
+    print("Edges in the Minimum Spanning Tree:")
+    for edge in mst:
+        print(f"{edge.src} -- {edge.dest} == {edge.weight}")

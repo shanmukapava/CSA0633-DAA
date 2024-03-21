@@ -1,0 +1,64 @@
+import heapq
+import copy
+
+class Node:
+    def __init__(self, assignment, cost, level, parent=None):
+        self.assignment = assignment
+        self.cost = cost
+        self.level = level
+        self.parent = parent
+
+    def __lt__(self, other):
+        return self.cost < other.cost
+
+def is_valid(i, j, assignment, n):
+    # Check if assigning task j to worker i is valid
+    return assignment[i] == -1 and j not in assignment[:n]
+
+def branch_and_bound(cost_matrix):
+    n = len(cost_matrix)
+    
+    # Initialize the root node
+    root = Node(assignment=[-1] * n, cost=0, level=0)
+    
+    # Initialize priority queue for nodes
+    priority_queue = [root]
+    
+    while priority_queue:
+        node = heapq.heappop(priority_queue)
+        level = node.level
+        
+        if level == n:
+            # All tasks are assigned, update the optimal solution
+            optimal_assignment = copy.deepcopy(node.assignment)
+            optimal_cost = node.cost
+            continue
+        
+        for j in range(n):
+            if is_valid(level, j, node.assignment, n):
+                child_assignment = copy.deepcopy(node.assignment)
+                child_assignment[level] = j
+                
+                # Calculate the cost of the assignment
+                child_cost = node.cost + cost_matrix[level][j]
+                
+                # Create a child node
+                child_node = Node(assignment=child_assignment, cost=child_cost, level=level + 1, parent=node)
+                
+                heapq.heappush(priority_queue, child_node)
+    
+    return optimal_assignment, optimal_cost
+
+if __name__ == "__main__":
+    # Example usage
+    cost_matrix = [
+        [9, 2, 7, 8],
+        [6, 4, 3, 7],
+        [5, 8, 1, 8],
+        [7, 6, 9, 4]
+    ]
+    
+    assignment, cost = branch_and_bound(cost_matrix)
+    
+    print("Optimal Assignment:", assignment)
+    print("Optimal Cost:", cost)

@@ -1,0 +1,21 @@
+def min_max_sequence(numbers):
+    if not numbers:
+        print("The list is empty.")
+        return
+
+    min_val = min(numbers)
+    max_val = max(numbers)
+
+    min_sequence = [i for i, num in enumerate(numbers) if num == min_val]
+    max_sequence = [i for i, num in enumerate(numbers) if num == max_val]
+
+    print(f"Minimum Value: {min_val}")
+    print(f"Sequence(s) for Minimum Value: {min_sequence}")
+    print()
+    print(f"Maximum Value: {max_val}")
+    print(f"Sequence(s) for Maximum Value: {max_sequence}")
+
+# Example usage:
+number_list = [5, 2, 8, 2, 1, 7, 2, 3]
+
+min_max_sequence(number_list)
